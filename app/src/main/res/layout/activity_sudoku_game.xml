@@ -7,6 +7,13 @@
     tools:context=".SudokuGame"
     android:orientation="vertical"
     android:padding="10dp">
+    <TextView
+        android:gravity="right"
+        android:textSize="20dp"
+
+        android:id="@+id/contador"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <LinearLayout
         android:id="@+id/tablero"
         android:layout_width="match_parent"
@@ -18,5 +25,7 @@
         android:layout_height="wrap_content"
         android:text="Comprobar"
         android:onClick="comporbarSudoku"/>
+
+
 
 </LinearLayout>

@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         User usuario = null;
         this.db = this.conexionSQLite.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT "+Utilidades.CAMPO_NOM+","+Utilidades.CAMPO_PUNTS
-                +" FROM "+Utilidades.NOMBRE_TABLA+" ORDER BY "+Utilidades.CAMPO_PUNTS+" ASC LIMIT 10",null);
+                +" FROM "+Utilidades.NOMBRE_TABLA+" ORDER BY "+Utilidades.CAMPO_PUNTS+" DESC LIMIT 10",null);
         while (cursor.moveToNext()){
 
             usuario = new User();
