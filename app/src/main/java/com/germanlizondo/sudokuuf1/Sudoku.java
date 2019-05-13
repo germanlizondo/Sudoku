@@ -149,6 +149,19 @@ public class Sudoku {
 
     }
 
+    public void vaciarCasillas(){
+        Random r= new Random();
+        int k1,k2,max=8,min=0;
+        for(int x=0;x<50;x++){
+            do{
+                k1=r.nextInt(max-min+1)+min;
+                k2=r.nextInt(max-min+1)+min;
+            }while ( this.tablero[k1][k2].getNumero()==0 );
+            this.tablero[k1][k2].setNumero(0);
+        }
+
+    }
+
     public void printarTablero(){
         for(int x=0;x<9;x++){
             for(int y=0;y<9;y++){
@@ -158,6 +171,10 @@ public class Sudoku {
 
         }
     }
+
+
+
+
 
 
 

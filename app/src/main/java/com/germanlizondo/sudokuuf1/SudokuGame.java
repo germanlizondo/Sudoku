@@ -7,6 +7,7 @@ import android.icu.util.Calendar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import java.util.TimerTask;
 public class SudokuGame extends AppCompatActivity {
     private User user;
     private Sudoku sudoku;
+    private Sudoku respuestaSudoku;
     private LinearLayout tablero;
     private EditText casilla;
     private TextView contador;
@@ -51,6 +53,7 @@ public class SudokuGame extends AppCompatActivity {
 
         this.sudoku = new Sudoku();
         this.solver = new ComporbadorSudoku(this.sudoku);
+        this.sudoku.vaciarCasillas();
         this.casillasMap = new HashMap<>();
 
         this.tablero = (LinearLayout) findViewById(R.id.tablero);
@@ -89,8 +92,11 @@ public class SudokuGame extends AppCompatActivity {
             for(int y =0;y<9;y++){
                 casilla = new EditText(this);
                 casilla.setInputType(InputType.TYPE_CLASS_NUMBER);
-                casilla.setText(this.sudoku.getTablero()[x][y].getNumero()+"");
-                casilla.setLayoutParams(new LinearLayout.LayoutParams(150, LinearLayout.LayoutParams.WRAP_CONTENT));
+                if(this.sudoku.getTablero()[x][y].getNumero()==0) casilla.setText("");
+                else{
+                    casilla.setText(this.sudoku.getTablero()[x][y].getNumero()+"");
+                }
+                casilla.setLayoutParams(new LinearLayout.LayoutParams(75, LinearLayout.LayoutParams.WRAP_CONTENT));
 
                 String concatenacionid = x+""+y;
                 int id = Integer.parseInt(concatenacionid);
@@ -105,7 +111,7 @@ public class SudokuGame extends AppCompatActivity {
 
     public void comporbarSudoku(View view) {
         this.recorrerSudoku();
-
+        this.solver.setRespuestaSudoku(respuestaSudoku);
       if(this.solver.comprobarSudoku()){
           Toast.makeText(this,"OL RIGHT",Toast.LENGTH_SHORT).show();
           this.calcularPuntuacion();
@@ -118,11 +124,17 @@ public class SudokuGame extends AppCompatActivity {
     }
 
     public void recorrerSudoku(){
+        this.respuestaSudoku = new Sudoku();
         EditText casilla;
          for(int x=0;x<9;x++){
             for(int y=0;y<9;y++){
                 casilla = this.casillasMap.get(Integer.parseInt(x+""+y));
-                this.sudoku.getTablero()[x][y].setNumero(Integer.parseInt(casilla.getText().toString()));
+                if(TextUtils.isEmpty(casilla.getText())){
+                   casilla.setError("vacio");
+                } else{
+                    this.respuestaSudoku.getTablero()[x][y].setNumero(Integer.parseInt(casilla.getText().toString()));
+
+                }
 
             }
 
